@@ -18,3 +18,15 @@ export type Message = {
   body: string;
   createdAt: string;
 };
+
+
+export interface ExtractFormProps {
+  messageId: string;
+}
+
+export interface FormData {
+  product: string;
+  quantity: string;
+  material: string;
+  budget: string;
+}
