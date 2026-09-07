@@ -323,7 +323,8 @@ h3 {
   padding: 5px 10px;
 }
 .lead-card {
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
   background: #fff;
   border: 1px solid #dce5de;
   border-radius: 12px;
@@ -332,10 +333,12 @@ h3 {
   margin-top: 10px;
   padding: 14px;
 }
-.lead-card p {
+.lead-card div {
+  display: flex;
+  flex-direction: column;
   color: #63736b;
   font-size: 0.78rem;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 .lead-card .muted {
   font-size: 0.72rem;
@@ -453,6 +456,48 @@ h3 {
   background-color: #9ca3af;
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.btn-contacted {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #065f46;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-contacted:hover:not(:disabled) {
+  color: #ffffff;
+  background-color: #10b981;
+  border-color: #10b981;
+  box-shadow:
+    0 4px 6px -1px rgba(16, 185, 129, 0.1),
+    0 2px 4px -1px rgba(16, 185, 129, 0.06);
+  transform: translateY(-1px);
+}
+
+.btn-contacted:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-contacted:disabled {
+  opacity: 0.6;
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 @media (max-width: 720px) {

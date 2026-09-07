@@ -360,7 +360,11 @@ function ExtractForm({ messageId }: { messageId: string }) {
           />
         </div>
 
-        {error && <p className="message-error">{error}</p>}
+        {error && (
+          <p className="message-error">
+            {error}
+          </p>
+        )}
         {success && <p className="message-success">Lead saved successfully!</p>}
 
         {/* Save lead */}
@@ -480,15 +484,18 @@ function LeadCard({
   return (
     <li className="lead-card">
       <div className="lead-card-content">
-        <h3>{lead.product}</h3>
-        <p>
-          {lead.quantity} unit{lead.quantity === 1 ? "" : "s"}
-          {lead.material ? ` · ${lead.material}` : ""}
-        </p>
-        <span className="muted">
-          {lead.status} ·{" "}
-          {lead.budget === null ? "Budget unknown" : `${lead.budget}`}
-        </span>
+        <h3>Product: {lead.product}</h3>
+        <div>
+          <p>
+            Quantity: {lead.quantity} unit{lead.quantity === 1 ? "" : "s"}
+          </p>
+          <p>Material: {lead.material ? ` ${lead.material}` : ""}</p>
+          <p>
+            Bundget:{" "}
+            {lead.budget === null ? "Budget unknown" : `${lead.budget}`}
+          </p>
+        </div>
+        <span className="muted">Status: {lead.status}</span>
         {error && <p className="error-text">Failed to update</p>}
       </div>
 

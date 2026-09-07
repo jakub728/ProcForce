@@ -23,6 +23,7 @@
     "express": "5.1.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "uuid": "^14.0.2",
     "zod": "4.0.17"
   },
   "devDependencies": {
