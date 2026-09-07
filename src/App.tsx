@@ -361,7 +361,7 @@ function ExtractForm({ messageId }: { messageId: string }) {
         </div>
 
         {error && (
-          <p className="message-error">
+          <p className="message-error" role="alert">
             {error}
           </p>
         )}
@@ -420,9 +420,16 @@ function PipelinePage() {
         <div className="panel-heading">
           <h2 id="pipeline-heading">Leads</h2>
         </div>
-        {state === "loading" && <StateMessage>Loading pipeline…</StateMessage>}
+        {state === "loading" && (
+          <div aria-busy="true" aria-live="polite">
+            <StateMessage>Loading pipeline…</StateMessage>
+          </div>
+        )}
+
         {state === "error" && (
-          <StateMessage>Could not load the pipeline.</StateMessage>
+          <div role="alert">
+            <StateMessage>Could not load the pipeline.</StateMessage>
+          </div>
         )}
         {state === "ready" &&
           (leads.length === 0 ? (
