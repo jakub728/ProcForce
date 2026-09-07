@@ -60,3 +60,25 @@ Pracuj jak w normalnym projekcie:
 - nie oddawaj jednego zbiorczego commita typu `task done`;
 - otwórz pull request do `main` i opisz zakres, najważniejsze decyzje oraz wykonane testy;
 - do zgłoszenia dołącz link do repozytorium i pull requestu.
+
+
+
+
+## 🚀 Podsumowanie Implementacji
+
+Wszystkie wymagania zawarte w specyfikacji zadania zostały pomyślnie zaimplementowane, otypowane oraz zweryfikowane za pomocą dostarczonych testów automatycznych.
+
+### 💻 Frontend (React + Vite + TypeScript)
+- **Przepływ ekstrakcji:** Do widoku szczegółów wiadomości (`/inbox/:messageId`) dodano komponent `ExtractForm` z przyciskami o dokładnych nazwach `Extract with AI` oraz `Save lead`. Pola formularza posiadają precyzyjne etykiety: `Product`, `Quantity`, `Material` oraz `Budget`.
+- **Inteligentne uzupełnianie danych:** Zaimplementowano logikę bezpiecznego scalania stanu. Ponowne kliknięcie `Extract with AI` uzupełnia wyłącznie puste pola – ręcznie wpisane lub poprawione przez użytkownika dane nigdy nie są nadpisywane.
+- **Zarządzanie stanem w Pipeline:** Zintegrowano widok `/pipeline`. Kliknięcie przycisku `Mark as contacted` przy leadzie ze statusem `NEW` wysyła żądanie `PATCH` i natychmiast aktualizuje interfejs użytkownika w locie, całkowicie bez przeładowania strony.
+- **Dostępność i UX (a11y):** Formularz w pełni obsługuje nawigację z klawiatury (wysyłka przez Enter). Przyciski akcji otrzymują stan `disabled` na czas trwania zapytań sieciowych, a wszelkie błędy walidacji i sieci są renderowane w elementach z atrybutem `role="alert"`, zapewniając pełne wsparcie dla czytników ekranu.
+
+### ⚙️ Backend (Express + Prisma ORM + Zod)
+- **POST `/api/leads`:** Bezpieczeństwo danych na granicy HTTP zapewnia walidacja Zod. Serwer automatycznie oczyszcza nazwę produktu (`.trim()`) i odrzuca puste wpisy, wymaga dodatniej liczby całkowitej dla `quantity` oraz skończonego, nieujemnego budżetu. Endpoint weryfikuje istnienie `sourceMessageId` w bazie oraz ignoruje próby ustawienia statusu przez klienta – każdy nowy lead jest twardo zapisywany jako `NEW`.
+- **PATCH `/api/leads/:leadId/status`:** Restrykcyjnie przyjmuje wyłącznie payload `{ "status": "CONTACTED" }` i pozwala na zmianę stanu tylko wtedy, gdy aktualny status leada w bazie to `NEW`. W przypadku błędów lub prób ponownej zmiany, serwer bezpiecznie zwraca kod błąd 4xx bez modyfikacji rekordu.
+
+### 🪟 Kompatybilność z systemem Windows i PowerShell
+Oryginalna deklaracja zmiennych środowiskowych w jednej linii (`RUST_LOG=info`), przygotowana pod systemy Unix (Linux/macOS), powoduje błędy wykonania w systemie Windows. Aby zapewnić płynne uruchamianie i testowanie projektu na maszynach z systemem Windows bez modyfikowania oryginalnych skryptów rekrutera, do pliku `package.json` jawnie dodano dwa dedykowane skrypty:
+- `npm run db:reset:powershell` — Uruchamia natywne migracje Prisma, generuje klienta i bezbłędnie zasila bazę SQLite danymi startowymi (seed) w środowisku PowerShell/CMD.
+- `npm run test:powershell` — Sekwencyjnie czyści środowisko, uruchamia powyższy reset bazy danych, a następnie bezpiecznie odpala całą suitę testową w środowisku Vitest na Windowsie.
